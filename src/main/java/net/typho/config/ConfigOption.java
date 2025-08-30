@@ -10,6 +10,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.option.SimpleOption;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
 import net.minecraft.server.MinecraftServer;
@@ -44,6 +46,10 @@ public abstract class ConfigOption<O> implements ConfigOptionGroupChild, SimpleO
         }
     }
 
+    public String valueAsString() {
+        return get().toString();
+    }
+
     @Override
     public Identifier id() {
         return id;
@@ -71,6 +77,10 @@ public abstract class ConfigOption<O> implements ConfigOptionGroupChild, SimpleO
     }
 
     public void updatedServer(MinecraftServer server) {
+    }
+
+    public boolean set(NbtElement nbt) {
+        return set(codec().decode(NbtOps.INSTANCE, nbt));
     }
 
     @SuppressWarnings("unchecked")

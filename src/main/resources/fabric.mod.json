@@ -3,8 +3,10 @@
   "id": "typho_config",
   "version": "${version}",
   "name": "Typho Config",
-  "description": "",
-  "authors": [],
+  "description": "A per-world and client-side config utility that I use in my mods",
+  "authors": [
+    "The Typhothanian"
+  ],
   "contact": {},
   "license": "MIT",
   "icon": "assets/typho_config/icon.png",

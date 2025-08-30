@@ -42,6 +42,10 @@ public class ConfigOptionGroup implements ConfigOptionGroupChild, Iterable<Confi
         parent.subGroups.add(this);
     }
 
+    public ConfigOptionGroup(ItemStack icon, ConfigOptionGroup parent, String folder) {
+        this(parent.env, icon, parent, folder);
+    }
+
     @Override
     public @NotNull Iterator<ConfigOptionGroupChild> iterator() {
         return Iterators.concat(subGroups.iterator(), options.iterator());

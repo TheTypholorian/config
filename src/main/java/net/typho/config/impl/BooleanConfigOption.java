@@ -5,7 +5,6 @@ import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.option.SimpleOption;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -48,18 +47,6 @@ public class BooleanConfigOption extends ConfigOption<Boolean> {
     public void render(ConfigScreen.Node node, DrawContext context, int mouseX, int mouseY, float delta) {
         Text text = get() ? ScreenTexts.ON : ScreenTexts.OFF;
         context.drawTextWithShadow(node.textRenderer(), text, node.getX() + node.getWidth() - node.textRenderer().getWidth(text) - 8, node.getY() + (node.getHeight() - node.textRenderer().fontHeight) / 2, 0xFFFFFFFF);
-    }
-
-    @Override
-    public SimpleOption<Boolean> asSimpleOption() {
-        SimpleOption<Boolean> option = SimpleOption.ofBoolean(
-                translationKey(),
-                this,
-                defValue,
-                this::set
-        );
-        option.setValue(value);
-        return option;
     }
 
     @Override

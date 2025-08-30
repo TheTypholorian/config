@@ -6,7 +6,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.option.SimpleOption;
@@ -15,7 +14,6 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -110,20 +108,9 @@ public abstract class ConfigOption<O> implements ConfigOptionGroupChild, SimpleO
         }
     }
 
-    public String commandPath() {
-        return id.toString();
-    }
-
     public String translationKey() {
         return id.toTranslationKey("config").replace('/', '.');
     }
-
-    public Text display() {
-        return Text.translatable(translationKey());
-    }
-
-    @Environment(EnvType.CLIENT)
-    public abstract SimpleOption<O> asSimpleOption();
 
     public abstract Codec<O> codec();
 

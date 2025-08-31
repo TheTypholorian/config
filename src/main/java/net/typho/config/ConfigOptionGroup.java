@@ -71,47 +71,6 @@ public class ConfigOptionGroup implements ConfigOptionGroupChild, Iterable<Confi
         node.parent().pushTab(this);
     }
 
-    @SuppressWarnings("unchecked")
-    public <O> ConfigOption<O> getFeature(String name) {
-        return (ConfigOption<O>) options.stream().filter(feature -> feature.name.equals(name)).findAny().orElse(null);
-    }
-
-    public ConfigOptionGroup getFolder(String name) {
-        return subGroups.stream().filter(group -> group.name.equals(name)).findAny().orElse(null);
-    }
-
-    public <O> ConfigOption<O> getFeature(String... path) {
-        if (path.length == 1) {
-            return getFeature(path[0]);
-        }
-
-        ConfigOptionGroup found = getFolder(path[0]);
-
-        if (found == null) {
-            return null;
-        }
-
-        String[] subPath = new String[path.length - 1];
-        System.arraycopy(path, 1, subPath, 0, subPath.length);
-        return found.getFeature(subPath);
-    }
-
-    public ConfigOptionGroup getFolder(String... path) {
-        if (path.length == 1) {
-            return getFolder(path[0]);
-        }
-
-        ConfigOptionGroup found = subGroups.stream().filter(group -> group.name.equals(path[0])).findAny().orElse(null);
-
-        if (found == null) {
-            return null;
-        }
-
-        String[] subPath = new String[path.length - 1];
-        System.arraycopy(path, 1, subPath, 0, subPath.length);
-        return found.getFolder(subPath);
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName() + " " + id.toString());

@@ -19,21 +19,15 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class ConfigOption<O> implements ConfigOptionGroupChild, SimpleOption.TooltipFactory<O> {
     public final Identifier id;
-    public final String name;
     public final ConfigOptionGroup parent;
     public final ArgumentType<O> argumentType;
     public final O defValue;
     public final EnvType env;
     protected O value;
 
-    public ConfigOption(ConfigOptionGroup parent, String name, ArgumentType<O> argumentType, O value) {
-        this(parent.env, parent, name, argumentType, value);
-    }
-
-    public ConfigOption(EnvType env, ConfigOptionGroup parent, String name, ArgumentType<O> argumentType, O value) {
+    protected ConfigOption(EnvType env, ConfigOptionGroup parent, Identifier id, ArgumentType<O> argumentType, O value) {
         this.env = env;
-        this.id = parent.id.withSuffixedPath("/" + name);
-        this.name = name;
+        this.id = id;
         this.parent = parent;
         this.argumentType = argumentType;
         this.value = defValue = value;
@@ -42,6 +36,20 @@ public abstract class ConfigOption<O> implements ConfigOptionGroupChild, SimpleO
         if (TyphoConfig.ALL_OPTIONS.put(id, this) != null) {
             throw new IllegalStateException("Duplicate option " + id);
         }
+    }
+
+    public interface Builder<B extends Builder<B, O, T>, O, T extends ConfigOption<O>> {
+        B parent(ConfigOptionGroup parent);
+
+        B env(EnvType env);
+
+        B id(String folder);
+
+        B id(Identifier id);
+
+        B value(O value);
+
+        T build();
     }
 
     public String valueAsString() {

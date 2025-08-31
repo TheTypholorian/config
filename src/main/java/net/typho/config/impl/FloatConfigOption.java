@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.typho.config.ConfigOption;
 import net.typho.config.ConfigOptionGroup;
 import net.typho.config.client.ConfigScreen;
@@ -16,14 +17,53 @@ import net.typho.config.client.ConfigScreen;
 public class FloatConfigOption extends ConfigOption<Float> {
     public final ItemStack icon;
 
-    public FloatConfigOption(ConfigOptionGroup parent, String name, Float value, ItemStack icon) {
-        super(parent, name, FloatArgumentType.floatArg(), value);
-        this.icon = icon;
+    protected FloatConfigOption(EnvType env, ConfigOptionGroup parent, Identifier id, Float value, ItemStack icon) {
+        super(env, parent, id, FloatArgumentType.floatArg(), value);
+        this.icon = icon == null ? ItemStack.EMPTY : icon;
     }
 
-    public FloatConfigOption(EnvType env, ConfigOptionGroup parent, String name, Float value, ItemStack icon) {
-        super(env, parent, name, FloatArgumentType.floatArg(), value);
-        this.icon = icon;
+    public static class Builder implements ConfigOption.Builder<Builder, Float, FloatConfigOption> {
+        public EnvType env;
+        public ConfigOptionGroup parent;
+        public Identifier id;
+        public float value;
+        public ItemStack icon;
+
+        @Override
+        public Builder parent(ConfigOptionGroup parent) {
+            this.parent = parent;
+            this.env = parent.env;
+            return this;
+        }
+
+        @Override
+        public Builder env(EnvType env) {
+            this.env = env;
+            return this;
+        }
+
+        @Override
+        public Builder id(String folder) {
+            id(parent.id.withSuffixedPath("/" + folder));
+            return this;
+        }
+
+        @Override
+        public Builder id(Identifier id) {
+            this.id = id;
+            return this;
+        }
+
+        @Override
+        public Builder value(Float value) {
+            this.value = value;
+            return this;
+        }
+
+        @Override
+        public FloatConfigOption build() {
+            return new FloatConfigOption(env, parent, id, value, icon);
+        }
     }
 
     @Override

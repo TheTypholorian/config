@@ -62,6 +62,12 @@ public class BooleanConfigOption extends ConfigOption<Boolean> {
         }
 
         @Override
+        public Builder icon(ItemStack icon) {
+            this.icon = icon;
+            return this;
+        }
+
+        @Override
         public BooleanConfigOption build() {
             return new BooleanConfigOption(env, parent, id, value, icon);
         }

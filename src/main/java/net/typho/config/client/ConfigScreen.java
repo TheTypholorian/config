@@ -136,11 +136,7 @@ public class ConfigScreen extends Screen {
         protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
             context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), child.enabled() ? (hovered ? 0xFF000000 : 0xCC000000) : (hovered ? 0xFF7F0000 : 0xCC7F0000));
 
-            float scale = 1;
-
-            if (hovered) {
-                scale *= 1.5f;
-            }
+            float scale = hovered ? 1.5f : 1;
 
             MatrixStack matrices = context.getMatrices();
             matrices.push();
@@ -149,8 +145,8 @@ public class ConfigScreen extends Screen {
             context.drawItem(child.icon(), 0, 0);
             matrices.pop();
 
-            OrderedText name = textRenderer.wrapLines(child.name(), 32).getFirst();
-            OrderedText desc = child.desc() != null ? textRenderer.wrapLines(child.desc().formatted(Formatting.GRAY), 32).getFirst() : null;
+            OrderedText name = textRenderer.wrapLines(child.name(), getWidth() - 64).getFirst();
+            OrderedText desc = child.desc() != null ? textRenderer.wrapLines(child.desc().formatted(Formatting.GRAY), getWidth() - 64).getFirst() : null;
 
             if (desc == null) {
                 context.drawTextWithShadow(textRenderer, name, getX() + 32, getY() + (height - textRenderer.fontHeight) / 2, 0xFFFFFFFF);

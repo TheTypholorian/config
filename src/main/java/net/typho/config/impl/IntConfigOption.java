@@ -61,6 +61,12 @@ public class IntConfigOption extends ConfigOption<Integer> {
         }
 
         @Override
+        public Builder icon(ItemStack icon) {
+            this.icon = icon;
+            return this;
+        }
+
+        @Override
         public IntConfigOption build() {
             return new IntConfigOption(env, parent, id, value, icon);
         }

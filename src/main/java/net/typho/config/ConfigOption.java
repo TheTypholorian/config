@@ -9,6 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.option.SimpleOption;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.codec.PacketCodec;
@@ -48,6 +49,8 @@ public abstract class ConfigOption<O> implements ConfigOptionGroupChild, SimpleO
         B id(Identifier id);
 
         B value(O value);
+
+        B icon(ItemStack icon);
 
         T build();
     }

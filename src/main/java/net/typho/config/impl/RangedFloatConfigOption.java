@@ -54,6 +54,12 @@ public class RangedFloatConfigOption extends FloatConfigOption {
             return this;
         }
 
+        @Override
+        public Builder icon(ItemStack icon) {
+            this.icon = icon;
+            return this;
+        }
+
         public Builder min(Float min) {
             this.min = min;
             return this;

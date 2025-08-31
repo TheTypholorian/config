@@ -54,6 +54,12 @@ public class RangedIntConfigOption extends IntConfigOption {
             return this;
         }
 
+        @Override
+        public Builder icon(ItemStack icon) {
+            this.icon = icon;
+            return this;
+        }
+
         public Builder min(int min) {
             this.min = min;
             return this;

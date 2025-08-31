@@ -61,6 +61,12 @@ public class FloatConfigOption extends ConfigOption<Float> {
         }
 
         @Override
+        public Builder icon(ItemStack icon) {
+            this.icon = icon;
+            return this;
+        }
+
+        @Override
         public FloatConfigOption build() {
             return new FloatConfigOption(env, parent, id, value, icon);
         }

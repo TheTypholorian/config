@@ -13,37 +13,58 @@ import java.util.List;
 
 public class ConfigOptionGroup implements ConfigOptionGroupChild, Iterable<ConfigOptionGroupChild> {
     public final Identifier id;
-    public final String name;
     public final ConfigOptionGroup parent;
     public final List<ConfigOptionGroup> subGroups = new LinkedList<>();
     public final List<ConfigOption<?>> options = new LinkedList<>();
     public final ItemStack icon;
     public final EnvType env;
 
-    public ConfigOptionGroup(EnvType env, ItemStack icon, Identifier id) {
-        this(env, icon, id, id.getPath());
-    }
-
-    public ConfigOptionGroup(EnvType env, ItemStack icon, Identifier id, String name) {
+    protected ConfigOptionGroup(EnvType env, ItemStack icon, Identifier id, ConfigOptionGroup parent) {
         this.env = env;
         this.icon = icon;
         this.id = id;
-        this.name = name;
-        this.parent = null;
-    }
-
-    public ConfigOptionGroup(EnvType env, ItemStack icon, ConfigOptionGroup parent, String folder) {
-        this.env = env;
-        this.icon = icon;
-        this.id = parent.id.withSuffixedPath("/" + folder);
-        this.name = folder;
         this.parent = parent;
 
-        parent.subGroups.add(this);
+        if (parent != null) {
+            parent.subGroups.add(this);
+        }
     }
 
-    public ConfigOptionGroup(ItemStack icon, ConfigOptionGroup parent, String folder) {
-        this(parent.env, icon, parent, folder);
+    public static class Builder {
+        public EnvType env;
+        public ConfigOptionGroup parent;
+        public Identifier id;
+        public ItemStack icon;
+
+        public Builder parent(ConfigOptionGroup parent) {
+            this.parent = parent;
+            this.env = parent.env;
+            return this;
+        }
+
+        public Builder env(EnvType env) {
+            this.env = env;
+            return this;
+        }
+
+        public Builder id(String folder) {
+            id(parent.id.withSuffixedPath("/" + folder));
+            return this;
+        }
+
+        public Builder id(Identifier id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder icon(ItemStack icon) {
+            this.icon = icon;
+            return this;
+        }
+
+        public ConfigOptionGroup build() {
+            return new ConfigOptionGroup(env, icon, id, parent);
+        }
     }
 
     @Override

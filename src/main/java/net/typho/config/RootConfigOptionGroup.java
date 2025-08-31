@@ -13,19 +13,36 @@ import net.minecraft.util.Identifier;
 import net.typho.config.client.ConfigScreen;
 
 public class RootConfigOptionGroup extends ConfigOptionGroup {
-    public RootConfigOptionGroup(ItemStack icon, Identifier id) {
-        super(EnvType.SERVER, icon, id);
+    protected RootConfigOptionGroup(EnvType env, ItemStack icon, Identifier id) {
+        super(env, icon, id, null);
 
         if (TyphoConfig.ROOT_OPTION_GROUPS.put(this.id, this) != null) {
             throw new IllegalStateException("Duplicate root group " + id);
         }
     }
 
-    public RootConfigOptionGroup(ItemStack icon, Identifier id, String name) {
-        super(EnvType.SERVER, icon, id, name);
+    public static class Builder {
+        public EnvType env;
+        public Identifier id;
+        public ItemStack icon;
 
-        if (TyphoConfig.ROOT_OPTION_GROUPS.put(this.id, this) != null) {
-            throw new IllegalStateException("Duplicate root group " + this.id);
+        public Builder env(EnvType env) {
+            this.env = env;
+            return this;
+        }
+
+        public Builder id(Identifier id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder icon(ItemStack icon) {
+            this.icon = icon;
+            return this;
+        }
+
+        public RootConfigOptionGroup build() {
+            return new RootConfigOptionGroup(env, icon, id);
         }
     }
 

@@ -16,7 +16,7 @@ public class RootConfigOptionGroup extends ConfigOptionGroup {
     public RootConfigOptionGroup(ItemStack icon, Identifier id) {
         super(EnvType.SERVER, icon, id);
 
-        if (TyphoConfig.ROOT_OPTION_GROUPS.put(id, this) != null) {
+        if (TyphoConfig.ROOT_OPTION_GROUPS.put(this.id, this) != null) {
             throw new IllegalStateException("Duplicate root group " + id);
         }
     }
@@ -24,8 +24,8 @@ public class RootConfigOptionGroup extends ConfigOptionGroup {
     public RootConfigOptionGroup(ItemStack icon, Identifier id, String name) {
         super(EnvType.SERVER, icon, id, name);
 
-        if (TyphoConfig.ROOT_OPTION_GROUPS.put(id, this) != null) {
-            throw new IllegalStateException("Duplicate root group " + id);
+        if (TyphoConfig.ROOT_OPTION_GROUPS.put(this.id, this) != null) {
+            throw new IllegalStateException("Duplicate root group " + this.id);
         }
     }
 

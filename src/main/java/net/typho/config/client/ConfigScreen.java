@@ -10,7 +10,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.typho.config.ConfigOptionGroup;
 import net.typho.config.ConfigOptionGroupChild;
 import org.jetbrains.annotations.Nullable;
@@ -147,7 +149,16 @@ public class ConfigScreen extends Screen {
             context.drawItem(child.icon(), 0, 0);
             matrices.pop();
 
-            context.drawTextWithShadow(textRenderer, child.name(), getX() + 32, getY() + (height - textRenderer.fontHeight) / 2, 0xFFFFFFFF);
+            OrderedText name = textRenderer.wrapLines(child.name(), 32).getFirst();
+            OrderedText desc = child.desc() != null ? textRenderer.wrapLines(child.desc().formatted(Formatting.GRAY), 32).getFirst() : null;
+
+            if (desc == null) {
+                context.drawTextWithShadow(textRenderer, name, getX() + 32, getY() + (height - textRenderer.fontHeight) / 2, 0xFFFFFFFF);
+            } else {
+                context.drawTextWithShadow(textRenderer, name, getX() + 32, getY() + height / 2 - textRenderer.fontHeight, 0xFFFFFFFF);
+                context.drawTextWithShadow(textRenderer, desc, getX() + 32, getY() + height - textRenderer.fontHeight - 1, 0xFFFFFFFF);
+            }
+
             child.render(this, context, mouseX, mouseY, delta);
         }
 

@@ -4,8 +4,10 @@ import net.fabricmc.api.EnvType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Language;
 import net.typho.config.client.ConfigScreen;
 
 public interface ConfigOptionGroupChild {
@@ -21,8 +23,18 @@ public interface ConfigOptionGroupChild {
         return true;
     }
 
-    default Text name() {
-        return Text.literal(Text.translatable(id().toTranslationKey("config").replace('/', '.')).asTruncatedString(32));
+    default MutableText name() {
+        return Text.translatable(id().toTranslationKey("config").replace('/', '.'));
+    }
+
+    default MutableText desc() {
+        String key = id().toTranslationKey("config", "desc").replace('/', '.');
+
+        if (!Language.getInstance().hasTranslation(key)) {
+            return null;
+        } else {
+            return Text.translatable(key);
+        }
     }
 
     ItemStack icon();
